@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aws-cli-sa
+  namespace: default
+  # annotations:
+  #   eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/aws-cli-role
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-cli-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-cli
+  template:
+    metadata:
+      labels:
+        app: aws-cli
+    spec:
+      serviceAccountName: aws-cli-sa
+      containers:
+        - name: aws-cli-container
+          image: amazon/aws-cli:latest
+          # command: ["aws", "secretsmanager", "get-secret-value", "--secret-id", "my-secret", "--region", "us-east-2"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              while true; do
+                echo "Secret value is: $(cat /mnt/secrets/secret-value)";
+                sleep 5;
+              done
+          volumeMounts:
+            - name: secret-volume
+              mountPath: "/mnt/secrets"
+              readOnly: true
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: my-secret

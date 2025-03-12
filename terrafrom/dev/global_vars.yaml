@@ -1,0 +1,12 @@
+env: dev
+account_id: "123456789012"
+region: eu-east-2
+private_subnets:
+  - subnet-aaabbbccc
+  - subnet-bbbcccddd
+  - subnet-cccdddeee
+public_subnets:
+  - subnet-eeefffggg
+  - subnet-fffggghhh
+  - subnet-ggghhhiii
+vpc_id: vpc-00efc45c32
