@@ -8,6 +8,7 @@ locals {
 
 inputs = {
   vpc_id = local.global_vars.vpc_id
+  region = local.global_vars.region
   apps = [
     {
       name   = "my-ec2"

@@ -81,3 +81,7 @@ variable "load_balancer_type" {
   type = string
   default = "application"
 }
+variable "region" {
+  description = "aws region"
+  type = string
+}
